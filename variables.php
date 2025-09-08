@@ -39,6 +39,7 @@
         git push -u origin main : 
         
         HF: töltsd le otthon a repot a saját htdocs mappádba 
+        git clone https://github.com/felhnev/reponeve.git
 
 
     */
