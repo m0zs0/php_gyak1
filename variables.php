@@ -44,6 +44,8 @@
         helyi repo frissítése a remote repoból:
         git pull origin main
 
+        a távoli (origin) ágon vannak olyan változások, amiket előbb le kell húznod (fetch/pull), mielőtt push-olnád a saját módosításaidat.
+        git pull origin main --rebase
 
     */
 ?>
