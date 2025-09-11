@@ -6,5 +6,5 @@
     use App\Services\MyService;
 
     $service = new MyService();
-    service -> run();
+    $service -> run();
 ?>
