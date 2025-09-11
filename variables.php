@@ -41,6 +41,9 @@
         HF: töltsd le otthon a repot a saját htdocs mappádba 
         git clone https://github.com/felhnev/reponeve.git
 
+        helyi repo frissítése a remote repoból:
+        git pull origin main
+
 
     */
 ?>
