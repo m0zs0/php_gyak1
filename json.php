@@ -32,4 +32,6 @@ $dekodolt_termekek = json_decode($json_termekek, true);
 foreach($dekodolt_termekek as $termek){
     echo "{$termek['id']}, {$termek['nev']}, {$termek['ar']}, {$termek['keszleten']}<br>";
 }
+
+print_r($dekodolt_termekek);
 ?>
