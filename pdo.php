@@ -33,8 +33,46 @@ $pass = '';
 
 try{
     $pdo =new PDO($dsn, $user, $pass);
+
+    // Hiba mód: Exception dobása hiba esetén
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    echo "Sikeres csatlakozás!";
+
+    // INSERT
+    $name="mozso hack";
+    $companyName="<script>alert(\"hacked\")</script>";
+    $phone="1234567";
+    $email="mozso@mzsrk.hu";
+    $photo=null;
+    //$status=?
+    $note="webfejlesztő";
+
+    /*$sql = "INSERT INTO cards (`name`, `companyName`, `phone`, `email`, `photo`, `note`)
+            VALUES ('$name', '$companyName', '$phone', '$email', '$photo', '$note')";*/
+
+    //$pdo->exec($sql);
+
+    $sql = "INSERT INTO cards (`name`, `companyName`, `phone`, `email`, `photo`, `note`)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt ->execute([$name, $companyName, $phone, $email, $photo, $note]);
+
+    // READ
+    /*$sql = "SELECT * FROM cards WHERE id = 12";
+
+    $result = $pdo->query($sql);
+
+    $card = $result->fetch(PDO::FETCH_ASSOC);
+    
+    echo "<br>";
+    print_r($card);*/
+
 } catch (PDOException $ex){
     echo "Kapcsolódási hiba: {$ex->getMessage()}.";
-
+    exit();
 }
+
 ?>
