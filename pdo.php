@@ -98,28 +98,6 @@ function prepared_statement($pdo){
     $stmt = $pdo->prepare($sql);
 
     $stmt ->execute([$name, $companyName, $phone, $email, $photo, $note]);
-
-    // READ
-    /*$sql = "SELECT * FROM cards WHERE id = 12";
-
-    $result = $pdo->query($sql);
-
-    $card = $result->fetch(PDO::FETCH_ASSOC);
+*/
     
-    echo "<br>";
-    print_r($card);
-
-    $sql = "SELECT * FROM cards WHERE id = 12";
-
-    $stmt = $pdo->prepare($sql);
-    
-    $result = $pdo->query($sql);
-
-    $card = $result->fetch(PDO::FETCH_ASSOC);
-    
-    echo "<br>";
-    print_r($card);
-
-
-}*/
 ?>
