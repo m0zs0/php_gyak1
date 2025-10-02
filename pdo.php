@@ -39,21 +39,60 @@ try{
 
     echo "Sikeres csatlakozás!";
 
+    //xss: védekezés: htmlspecialcars()
+    //xss($pdo);
+    //sql_injection
+    //sql_injection($pdo);
+    prepared_statement($pdo); // védekezés sql injection ellen
+
+} catch (PDOException $ex){
+    echo "Kapcsolódási hiba: {$ex->getMessage()}.";
+    exit();
+}
+
+function xss($pdo){
+
     // INSERT
     $name="mozso hack";
-    $companyName="<script>alert(\"hacked\")</script>";
+    $companyName=htmlspecialchars("<script>alert(\"hacked\")</script>");
     $phone="1234567";
     $email="mozso@mzsrk.hu";
     $photo=null;
     //$status=?
     $note="webfejlesztő";
-
-    /*$sql = "INSERT INTO cards (`name`, `companyName`, `phone`, `email`, `photo`, `note`)
-            VALUES ('$name', '$companyName', '$phone', '$email', '$photo', '$note')";*/
-
-    //$pdo->exec($sql);
-
     $sql = "INSERT INTO cards (`name`, `companyName`, `phone`, `email`, `photo`, `note`)
+            VALUES ('$name', '$companyName', '$phone', '$email', '$photo', '$note')";
+
+    $pdo->exec($sql);
+    
+    // READ
+    $sql = "SELECT * FROM cards WHERE name = 'mozso hack'";
+    $result = $pdo->query($sql);
+    $card = $result->fetch(PDO::FETCH_ASSOC);
+    echo "<br>";
+    print_r($card);
+}
+
+function sql_injection($pdo){
+    $name_i="' OR '1' = '1"; // támadó kód
+    $sql = "SELECT * FROM cards WHERE name = '$name_i'";
+    $result = $pdo->query($sql);
+    $card = $result->fetchAll(PDO::FETCH_ASSOC);
+    echo "<br>";
+    print_r($card);
+} 
+
+function prepared_statement($pdo){
+    $name_i="' OR '1' = '1"; // támadó kód
+    $sql = "SELECT * FROM cards WHERE name = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt ->execute([$name_i]);
+
+    $card = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo "<br>";
+    print_r($card);
+}
+    /*$sql = "INSERT INTO cards (`name`, `companyName`, `phone`, `email`, `photo`, `note`)
             VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
@@ -68,11 +107,19 @@ try{
     $card = $result->fetch(PDO::FETCH_ASSOC);
     
     echo "<br>";
-    print_r($card);*/
+    print_r($card);
 
-} catch (PDOException $ex){
-    echo "Kapcsolódási hiba: {$ex->getMessage()}.";
-    exit();
-}
+    $sql = "SELECT * FROM cards WHERE id = 12";
 
+    $stmt = $pdo->prepare($sql);
+    
+    $result = $pdo->query($sql);
+
+    $card = $result->fetch(PDO::FETCH_ASSOC);
+    
+    echo "<br>";
+    print_r($card);
+
+
+}*/
 ?>
