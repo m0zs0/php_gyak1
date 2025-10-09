@@ -34,5 +34,35 @@
 
             echo "-------------------------------------\n";
         }
+
+        public function editCard(int $id, array $data): void{
+            if (empty($data)){
+                echo "Figyelmeztetés: Nincs frissítendó adat megadva.\n";
+                return;
+            }
+
+            $setClause = [];
+            $params = [];
+
+            foreach ($data as $key => $value) {
+                $setClause[] = "{$key} = ?";
+                $params[] = $value;
+            }
+
+            $params[] = $id;
+
+            $sql = "UPDATE business_cards SET ".implode(', ', $setClause) ." WHERE id = ?";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            $success = $stmt->execute($params);
+
+            if ($success) {
+                echo "A(z) {$id} id-jű névjegy sikeresen frissítve.\n";
+            } else {
+                echo 'Hiba: A névjegy frissítése sikertelen volt.\n';
+            }
+
+        }
     }
 ?>

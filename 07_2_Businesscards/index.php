@@ -61,6 +61,26 @@ switch ($action){
         $card = new BusinessCard(null, $data['name'],$data['email'],$data['phone'],$data['company']);
         $manager->addCard($card);
         break;
+    case 'edit':
+        $id = $argv[2] ?? 1;
+        $data = [];
+
+        // Kulcs értékpárok feldolgozásának kezdete
+        //pl: php index.php edit 1 --name="mozso" --email="mozos@mzsrk.hu"
+        for ($i=3; $i< count($argv);$i++){
+            $arg = $argv[$i];
+            if (strpos($arg, '--') == 0) {
+                $parts = explode('=', substr($arg, 2), 2);
+                if (count($parts) == 2){
+                    $key = $parts[0];
+                    $value = $parts[1];
+                    $data[$key] = $value;
+                }
+            }
+        }
+
+        $manager->editCard($id, $data);
+        break;
     default:
         echo 'Ismeretlen parancs. Használat: php index.php [list|add|edit|delete]\n';
         break;
