@@ -16,7 +16,7 @@ use App\Services\CardManager;
 
 //Adatbázis konfig (.env)
 $dbHost = 'localhost';
-$dbName = 'business_cards';
+$dbName = 'business_db';
 $dbUser = 'root';
 $dbPass = '';
 
@@ -40,4 +40,29 @@ $sql = "
 ";
 
 $pdo->exec($sql);
+
+$manager = new CardManager($pdo);
+
+$action = $argv[1] ?? 'list';
+
+switch ($action){
+    case 'list':
+        echo '--- Névjegyek listája ---';
+        $manager->listCards();
+        break;
+    case 'add':
+        $data = [
+            'name' => $argv[2] ?? 'Kiss Pista',
+            'email' => $argv[3] ?? 'kisspista@mzsrk.hu',
+            'phone' => $argv[4] ?? '+361234123',
+            'company' => $argv[5] ?? 'Móricz Bt.',
+        ];
+
+        $card = new BusinessCard(null, $data['name'],$data['email'],$data['phone'],$data['company']);
+        $manager->addCard($card);
+        break;
+    default:
+        echo 'Ismeretlen parancs. Használat: php index.php [list|add|edit|delete]\n';
+        break;
+}
 ?>

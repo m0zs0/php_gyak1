@@ -21,5 +21,18 @@
                             $card->company]);
             echo "Névjegy sikeresen hozzáadva!";
         }
+
+        public function listcards(): void{
+
+            $stmt = $this->pdo->query("SELECT * FROM business_cards ORDER BY id");
+            $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo "--- Névjegyek listája (".count($cards).") --- \n";
+            foreach ($cards as $cardData){
+                $card = new BusinessCard($cardData['id'],$cardData['name'],$cardData['email'], $cardData['phone'],$cardData['company']);
+                echo "ID: {$cardData['id']} |". $card->displayCard()."\n"; 
+            }
+
+            echo "-------------------------------------\n";
+        }
     }
 ?>
