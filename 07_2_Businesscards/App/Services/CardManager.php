@@ -60,9 +60,27 @@
             if ($success) {
                 echo "A(z) {$id} id-jű névjegy sikeresen frissítve.\n";
             } else {
-                echo 'Hiba: A névjegy frissítése sikertelen volt.\n';
+                echo "Hiba: A névjegy frissítése sikertelen volt.\n";
             }
 
         }
+        public function deleteCard(int $id): void{
+            if (empty($id)){
+                echo "Figyelmeztetés: Nincs törlendő id megadva.\n";
+                return;
+            }
+
+            $sql = "DELETE FROM business_cards WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+
+            $success = $stmt->execute([$id]);
+            
+            if ($success && $stmt->rowCount()>0) {
+                echo "A(z) {$id} id-jű névjegy sikeresen törölve.\n";
+            } else {
+                echo "Hiba: A névjegy törlése sikertelen volt.\n";
+            }
+        }
+
     }
 ?>
